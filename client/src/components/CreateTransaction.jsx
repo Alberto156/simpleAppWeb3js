@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 
 const CreateTransaction = () => {
   return (
-    <Row className="p-4" noGutters>
+    
+    <Row className="p-4" noGutters>{console.log("holas")}
       <Col md={6}>
         <Image src={TransacionLogo} fluid />
       </Col>

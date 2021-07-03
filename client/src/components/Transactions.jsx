@@ -22,7 +22,7 @@ const Transaction = () => {
 
   const [items, setItems] = useState([]);
 
-  let branyer = [1, 2, 3, 4];
+  const branyer = [1, 2, 3, 4];
 
   return (
     <Row>
