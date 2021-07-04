@@ -9,10 +9,7 @@ const Main = () => {
       try {
         let web3 = new Web3(window.ethereum);
         const account = await window.ethereum.enable();
-        
-        console.log(await web3.eth.getAccounts());
       } catch (err) {
-        console.log(err);
         alert("Has rechazado la conexión");
       }
     } else {
