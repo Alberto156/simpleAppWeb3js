@@ -2,7 +2,7 @@ import { Button, Card, Form, Image, Col, Row } from "react-bootstrap";
 import AccountImg from "../assets/Account.png";
 import { Link } from "react-router-dom";
 import Web3 from "web3";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Account = () => {
   const [AccountAdress, setAccountAdress] = useState("");
@@ -15,7 +15,13 @@ const Account = () => {
     const balanceETH = await web3.eth.getBalance(address[0]);
     setAccountAdress(address)
     setBalanceAccountEth(balanceETH/1000000000000000000)
+    console.log(BalanceAccountEth)
   }
+
+  useEffect(() => {
+    loadAccount()
+    console.log("hola")
+  }, [])
 
   return (
     <Row className="p-4" noGutters>

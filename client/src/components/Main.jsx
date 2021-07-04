@@ -2,13 +2,27 @@ import { Button, Card } from "react-bootstrap";
 import logo from "../assets/Ethereum-Logo.png";
 import Web3 from "web3";
 
+//router
+import { useHistory } from "react-router-dom";
+
+
 const Main = () => {
+
+  let history = useHistory();
+
   const connectProviderWeb3 = async (e) => {
     e.preventDefault();
     if (window.ethereum) {
       try {
         let web3 = new Web3(window.ethereum);
         const account = await window.ethereum.enable();
+
+        if(account!==null){
+
+          history.push("/home");
+
+        }
+
       } catch (err) {
         alert("Has rechazado la conexión");
       }
