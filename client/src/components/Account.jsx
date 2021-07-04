@@ -1,8 +1,16 @@
 import { Button, Card, Form, Image, Col, Row } from "react-bootstrap";
 import AccountImg from "../assets/Account.png";
 import { Link } from "react-router-dom";
+import Web3 from "web3";
 
 const Account = () => {
+
+  const loadAccount = async () => {
+    let web3 = new Web3(window.ethereum);
+    console.log(await web3.eth.getAccounts());
+  }
+
+
   return (
     <Row className="p-4" noGutters>
       <Col md={6}>
@@ -13,6 +21,9 @@ const Account = () => {
           <Col md={12}>
             <h3>Address</h3>
             <p>0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7</p>
+            <Button onClick={loadAccount} variant="outline-primary" size="lg">
+               tocame
+              </Button>
           </Col>
 
           <Col md={12}>
