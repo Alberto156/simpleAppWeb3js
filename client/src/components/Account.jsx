@@ -2,14 +2,20 @@ import { Button, Card, Form, Image, Col, Row } from "react-bootstrap";
 import AccountImg from "../assets/Account.png";
 import { Link } from "react-router-dom";
 import Web3 from "web3";
+import React, { useState } from "react";
 
 const Account = () => {
+  const [AccountAdress, setAccountAdress] = useState("");
+  const [BalanceAccountEth, setBalanceAccountEth] = useState(0);
 
+  //hacer que esta funcion inicie al iniciar el componente
   const loadAccount = async () => {
     let web3 = new Web3(window.ethereum);
-    console.log(await web3.eth.getAccounts());
+    let address = await web3.eth.getAccounts()
+    const balanceETH = await web3.eth.getBalance(address[0]);
+    setAccountAdress(address)
+    setBalanceAccountEth(balanceETH/1000000000000000000)
   }
-
 
   return (
     <Row className="p-4" noGutters>
@@ -19,8 +25,8 @@ const Account = () => {
       <Col md={6} className="d-inline-flex align-items-center">
         <Row>
           <Col md={12}>
-            <h3>Address</h3>
-            <p>0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7</p>
+            <h3>Adress</h3>
+            <p>{AccountAdress}</p>
             <Button onClick={loadAccount} variant="outline-primary" size="lg">
                tocame
               </Button>
@@ -29,7 +35,7 @@ const Account = () => {
           <Col md={12}>
             <h3>Gas</h3>
             <ul>
-              <li>Eth : 0</li>
+              <li>Eth : {BalanceAccountEth}</li>
               <li>CatCoin : 0</li>
               <li>BabyCoin : 0</li>
             </ul>
