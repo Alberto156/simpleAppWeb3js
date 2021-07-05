@@ -3,6 +3,12 @@ import { Link } from "react-router-dom";
 import Web3 from "web3";
 import React, { useState, useEffect } from "react";
 
+//paginacion
+import ReactPaginate from 'react-paginate';
+
+//estilos de css para la paginacion
+import '../css/paginacion.css'
+
 const Transaction = () => {
   const [Accounttransactions, setAccounttransactions] = useState([]);
  
@@ -10,7 +16,7 @@ const Transaction = () => {
   //hacer que esta funcion inicie al iniciar el componente
   const loadTransactions = async () => {
     let web3 = new Web3(window.ethereum);
-
+    
     let account = await web3.eth.getAccounts();
 
     //get latest block
@@ -19,9 +25,11 @@ const Transaction = () => {
     let block_temp = {};
     let transactions_temp = []
 
-    for (let i = 0; i < later_block; i++) {
+    for (let i = 0; i < later_block; i++) {/* aqui se forma n siclo infinito  */
+      
       block_temp = await web3.eth.getBlock(i);
       for (let txHash of block_temp.transactions) {
+        
         let tx = await web3.eth.getTransaction(txHash);
         if (account[0] == tx.from) {
           transactions_temp.push({
@@ -35,14 +43,26 @@ const Transaction = () => {
       }
       block_temp = {};
     }
-
-    setAccounttransactions(transactions_temp)
     
+    setAccounttransactions(transactions_temp)
+    console.log(Accounttransactions)
+
   };
 
   useEffect(() => {
     loadTransactions();
+    console.log(Accounttransactions)
   }, []);
+
+  const handlePageClick = (data) => {
+    /* let selected = data.selected; */
+    /* epa leonel aquie se hacer logia de paginacion */
+    /* cuando undas cli en los numero se ejecuta esta fucion */
+    /* el parametro data  para octener el numeor que toco de la paginacion es data.slected+1 */
+    
+    console.log(data.selected+1)
+
+  };
 
   return (
     <Row>
@@ -90,17 +110,24 @@ const Transaction = () => {
         </Table>
       </Col>
 
-      <Col md={12} className="mt-4 d-flex justify-content-center">
-        <Pagination>
-          <Pagination.Prev />
-
-          {Accounttransactions.map((e, _i) => {
-            return <Pagination.Item>{_i + 1}</Pagination.Item>;
-          })}
-
-          <Pagination.Next />
-        </Pagination>
-      </Col>
+      <div className="paginacion"><div className="paginacion_contenido">
+        <Col md={12} className="mt-4 d-flex justify-content-center">
+          <ReactPaginate
+              previousLabel={'<'}
+              nextLabel={'>'}
+              breakLabel={'...'}
+              breakClassName={'break-me'}
+              pageCount={20} /* cuanta paginas vas a ponee esto puede ponerlos dinamico pero se nesecita cuantas trasacines hay */
+              marginPagesDisplayed={1}
+              pageRangeDisplayed={3}
+              onPageChange={handlePageClick}/* llama la funcion cuando udes click a un numero de la paginacio */
+              containerClassName={'pagination'}
+              subContainerClassName={'pages pagination'}
+              activeClassName={'active'}
+            />
+        </Col>
+        </div>
+      </div>
     </Row>
   );
 };
