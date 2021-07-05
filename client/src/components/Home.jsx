@@ -61,7 +61,7 @@ const Home = () => {
           </Card>
         </Col>
 
-        <Col md={3}>
+        {/* <Col md={3}>
           <Card className="mx-3">
             <Card.Img variant="top" src={ConvertCoin} />
             <Card.Body className="row">
@@ -74,7 +74,7 @@ const Home = () => {
               </div>
             </Card.Body>
           </Card>
-        </Col>
+        </Col> */}
       </Row>
     </Container>
   );

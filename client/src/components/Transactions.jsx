@@ -1,28 +1,48 @@
 import { Table, Pagination, Button, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import Web3 from "web3";
+import React, { useState, useEffect } from "react";
 
 const Transaction = () => {
-  const [transactions, setTransactions] = useState([
-    {
-      txnHash: "example",
-      block: 1,
-      From: "carlos",
-      To: "juan",
-      value : 0
-    },
-    {
-      txnHash: "example1",
-      block: 1,
-      From: "carlos1",
-      To: "juan1",
-      value : 10
-    },
-  ]);
+  const [Accounttransactions, setAccounttransactions] = useState([]);
+ 
 
-  const [items, setItems] = useState([]);
+  //hacer que esta funcion inicie al iniciar el componente
+  const loadTransactions = async () => {
+    let web3 = new Web3(window.ethereum);
 
-  const branyer = [1, 2, 3, 4];
+    let account = await web3.eth.getAccounts();
+
+    //get latest block
+    let block = await web3.eth.getBlock("latest");
+    let later_block = block.number;
+    let block_temp = {};
+    let transactions_temp = []
+
+    for (let i = 0; i < later_block; i++) {
+      block_temp = await web3.eth.getBlock(i);
+      for (let txHash of block_temp.transactions) {
+        let tx = await web3.eth.getTransaction(txHash);
+        if (account[0] == tx.from) {
+          transactions_temp.push({
+            "from" : tx.from.toLowerCase(),
+            "TxtHash" : tx.hash,
+            "blockNumber" : tx.blockNumber,
+            "to" : tx.to,
+            "value" : tx.value
+          })
+        }
+      }
+      block_temp = {};
+    }
+
+    setAccounttransactions(transactions_temp)
+    
+  };
+
+  useEffect(() => {
+    loadTransactions();
+  }, []);
 
   return (
     <Row>
@@ -50,18 +70,18 @@ const Transaction = () => {
             </tr>
           </thead>
           <tbody>
-            {transactions.length == 0 ? (
+            {Accounttransactions.length == 0 ? (
               <tr></tr>
             ) : (
-              transactions.map((item , _i) => {
+              Accounttransactions.map((item, _i) => {
                 return (
                   <tr>
                     <td>{_i}</td>
-                    <td>{item.txnHash}</td>
-                    <td>{item.block}</td>
-                    <td>{item.From}</td>
-                    <td>{item.To}</td>
-                    <td>{item.value}</td>
+                    <td>{item.TxtHash}</td>
+                    <td>{item.blockNumber}</td>
+                    <td>{item.from}</td>
+                    <td>{item.to}</td>
+                    <td>{item.value > 100000000000000000 ? item.value /100000000000000000 : item.value}</td>
                   </tr>
                 );
               })
@@ -74,7 +94,7 @@ const Transaction = () => {
         <Pagination>
           <Pagination.Prev />
 
-          {transactions.map((e , _i) => {
+          {Accounttransactions.map((e, _i) => {
             return <Pagination.Item>{_i + 1}</Pagination.Item>;
           })}
 

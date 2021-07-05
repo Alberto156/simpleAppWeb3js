@@ -21,8 +21,8 @@ const Account = () => {
 
     const networkId = await web3.eth.net.getId();
 
-    let BabyCoinJSONContract = new web3.eth.Contract(ConfigBabyCoin[0], ConfigBabyCoin[1][networkId].address);
-    let CatCoinJSONContract = new web3.eth.Contract(ConfigCatCoin[0], ConfigCatCoin[1][networkId].address);
+    let BabyCoinJSONContract = await new web3.eth.Contract(ConfigBabyCoin[0], ConfigBabyCoin[1][networkId].address);
+    let CatCoinJSONContract = await new web3.eth.Contract(ConfigCatCoin[0], ConfigCatCoin[1][networkId].address);
     
     let address = await web3.eth.getAccounts()
 
