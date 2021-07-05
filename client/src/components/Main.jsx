@@ -2,28 +2,34 @@ import { Button, Card } from "react-bootstrap";
 import logo from "../assets/Ethereum-Logo.png";
 import Web3 from "web3";
 
-//Contract Config
-// const BabyCoinJSON = require('../../../blockChain/build/contracts/BabyCoin.json')
-// const CatCoinJSON = require('../../../blockChain/build/contracts/CatCoin.json')
+//router
+import { useHistory } from "react-router-dom";
+
+// //Contract Config
+// import ConfigBabyCoin from '../contract/BabyCoin'
+// import ConfigCatCoin from '../contract/CatCoin'
 
 const Main = () => {
+  let history = useHistory();
   const connectProviderWeb3 = async (e) => {
     e.preventDefault();
     if (window.ethereum) {
       try {
         let web3 = new Web3(window.ethereum);
 
-        const networkId = await web3.eth.net.getId();
+        // const networkId = await web3.eth.net.getId();
+
+        // let BabyCoinJSONContract = new web3.eth.Contract(ConfigBabyCoin[0], ConfigBabyCoin[1][networkId].address);
+        // let CatCoinJSONContract = new web3.eth.Contract(ConfigCatCoin[0], ConfigCatCoin[1][networkId].address);
 
         //connect web3 account
         const account = await window.ethereum.enable();
 
-        // //connect contracts
-        // CatCoinContract = new web3.eth.Contract(CatCoinJSON.abi, CatCoinJSON.networks[networkId].address);
-        // BabyCoinJSONContract = new web3.eth.Contract(BabyCoinJSONJSON.abi, BabyCoinJSONJSON.networks[networkId].address);
-
-
-        
+        // const balanceBDM = await BabyCoinJSONContract.methods.balanceOf(account[0]).call();
+        // console.log( balanceBDM )
+        if (account !== null) {
+          history.push("/home");
+        }
       } catch (err) {
         alert("Has rechazado la conexión");
       }
