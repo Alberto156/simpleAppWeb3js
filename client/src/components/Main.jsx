@@ -2,13 +2,28 @@ import { Button, Card } from "react-bootstrap";
 import logo from "../assets/Ethereum-Logo.png";
 import Web3 from "web3";
 
+//Contract Config
+// const BabyCoinJSON = require('../../../blockChain/build/contracts/BabyCoin.json')
+// const CatCoinJSON = require('../../../blockChain/build/contracts/CatCoin.json')
+
 const Main = () => {
   const connectProviderWeb3 = async (e) => {
     e.preventDefault();
     if (window.ethereum) {
       try {
         let web3 = new Web3(window.ethereum);
+
+        const networkId = await web3.eth.net.getId();
+
+        //connect web3 account
         const account = await window.ethereum.enable();
+
+        // //connect contracts
+        // CatCoinContract = new web3.eth.Contract(CatCoinJSON.abi, CatCoinJSON.networks[networkId].address);
+        // BabyCoinJSONContract = new web3.eth.Contract(BabyCoinJSONJSON.abi, BabyCoinJSONJSON.networks[networkId].address);
+
+
+        
       } catch (err) {
         alert("Has rechazado la conexión");
       }
